@@ -103,6 +103,13 @@ final class SettingsViewController: UIViewController {
                                                                          firstButtonCompletion: nil,
                                                                          secondButtonText: nil,
                                                                          secondButtonCompletion: nil))
+            case URLSession.NetworkError.errorStatusCode(423):
+                alertPresenter?.showAlertWithOneButton(model: AlertModel(title: "Увы",
+                                                                         message: "Обновить телефон могут только клиенты!",
+                                                                         firstButtonText: "Ок",
+                                                                         firstButtonCompletion: nil,
+                                                                         secondButtonText: nil,
+                                                                         secondButtonCompletion: nil))
             default:
                 print(error)
                 
