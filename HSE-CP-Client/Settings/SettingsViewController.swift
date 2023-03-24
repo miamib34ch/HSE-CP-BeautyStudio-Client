@@ -46,7 +46,7 @@ final class SettingsViewController: UIViewController {
     
     @IBAction private func deleteButton(_ sender: Any) {
         let model = AlertModel(title: "Пока, пока!",
-                               message: "Уверены, что хотите выйти из аккаунта?",
+                               message: "Уверены, что хотите удалить аккаунт?",
                                firstButtonText: "Да",
                                firstButtonCompletion: { [weak self] in
             guard let self = self else { return }
