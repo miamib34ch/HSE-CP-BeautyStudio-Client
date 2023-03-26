@@ -34,11 +34,11 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         TakeCallService().fetchPhone(completion: updatePhoneLabel)
     }
     
-    private func updatePhoneLabel(res: Result<String, Error>) {
+    private func updatePhoneLabel(res: Result<PhoneResult, Error>) {
         UIBlockingProgressHUD.dismiss()
         switch res {
         case .success(let phone):
-            phoneNumberLabel.text = phone
+            phoneNumberLabel.text = phone.phone
         case .failure:
             phoneNumberLabel.text = "Телефон не указан"
         }

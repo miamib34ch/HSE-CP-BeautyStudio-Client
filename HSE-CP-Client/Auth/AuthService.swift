@@ -48,7 +48,7 @@ final class AuthService {
         let url = urlComponents.url!
         
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = "POST"
 
         return request
     }

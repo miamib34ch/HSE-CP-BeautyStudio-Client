@@ -7,6 +7,14 @@
 
 import UIKit
 
+struct PhoneResult: Codable {
+    let phone: String
+}
+
+struct MsgResult: Codable {
+    let msg: String
+}
+
 final class TakeCallService {
     
     private var task: URLSessionTask?
@@ -22,7 +30,7 @@ final class TakeCallService {
         return request
     }
     
-    func fetchPhone(completion: @escaping(Result<String, Error>) -> Void) {
+    func fetchPhone(completion: @escaping(Result<PhoneResult, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
         
@@ -37,7 +45,7 @@ final class TakeCallService {
     func sendNote(procedureName: String,
                   massage: String?,
                   phone: String,
-                  completion: @escaping(Result<String, Error>) -> Void) {
+                  completion: @escaping(Result<MsgResult, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
         

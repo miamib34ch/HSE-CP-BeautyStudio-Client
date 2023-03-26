@@ -21,7 +21,7 @@ final class SettingsService {
         return request
     }
     
-    func sendDeleteRequest(completion: @escaping(Result<String, Error>) -> Void) {
+    func sendDeleteRequest(completion: @escaping(Result<MsgResult, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
         
@@ -33,7 +33,7 @@ final class SettingsService {
         task.resume()
     }
     
-    func sendUpdateRequest(phone: String?, pass: String?, completion: @escaping(Result<String, Error>) -> Void) {
+    func sendUpdateRequest(phone: String?, pass: String?, completion: @escaping(Result<MsgResult, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
         

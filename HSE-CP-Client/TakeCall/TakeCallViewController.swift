@@ -34,7 +34,7 @@ final class TakeCallViewController: UIViewController {
         TakeCallService().sendNote(procedureName: selectedProcedure, massage: massage.text, phone: phone, completion: completion)
     }
     
-    private func completion(res: Result<String,Error>) {
+    private func completion(res: Result<MsgResult,Error>) {
         switch res {
         case .success:
             alertPresenter?.showAlertWithOneButton(model: AlertModel(title: "Ваш запрос отправлен",
@@ -58,11 +58,11 @@ final class TakeCallViewController: UIViewController {
         }
     }
     
-    private func updatePhoneLabel(res: Result<String, Error>) {
+    private func updatePhoneLabel(res: Result<PhoneResult, Error>) {
         UIBlockingProgressHUD.dismiss()
         switch res {
         case .success(let phone):
-            self.phone.text = phone
+            self.phone.text = phone.phone
         case .failure(let error):
             print(error)
         }

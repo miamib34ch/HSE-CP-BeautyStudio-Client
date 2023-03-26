@@ -58,7 +58,7 @@ final class SettingsViewController: UIViewController {
         alertPresenter?.showAlertWithTwoButton(model: model)
     }
     
-    private func completionDelete(res: Result<String,Error>) {
+    private func completionDelete(res: Result<MsgResult,Error>) {
         UIBlockingProgressHUD.dismiss()
         switch res {
         case .success:
@@ -68,7 +68,7 @@ final class SettingsViewController: UIViewController {
         }
     }
     
-    private func completionUpdate(res: Result<String,Error>) {
+    private func completionUpdate(res: Result<MsgResult,Error>) {
         UIBlockingProgressHUD.dismiss()
         switch res {
         case .success:
