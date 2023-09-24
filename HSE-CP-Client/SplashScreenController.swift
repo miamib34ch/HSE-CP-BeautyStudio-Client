@@ -8,7 +8,6 @@
 import UIKit
 
 final class SplashScreenController: UIViewController {
-    
     private let authStorage = AuthStorage()
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
     
