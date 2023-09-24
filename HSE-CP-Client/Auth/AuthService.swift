@@ -40,7 +40,7 @@ final class AuthService {
         guard let url = URL(string: serverURL + endPoint) else { return nil }
 
         // Создаём тело запроса
-        let json: [String: Any] = ["login": login, "pass": password]
+        let json = ["login": login, "pass": password]
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
 
         // Создаём запрос

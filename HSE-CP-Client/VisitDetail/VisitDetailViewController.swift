@@ -58,6 +58,15 @@ final class VisitDetailViewController: UIViewController {
         }
         oldCount = newCount
     }
+
+    private func calculateTextViewHeight(text: String, width: CGFloat, font: UIFont) -> CGFloat {
+        let textView = UITextView()
+        textView.text = text
+        textView.font = font
+        textView.frame.size = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let newSize = textView.sizeThatFits(CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+        return newSize.height
+    }
 }
 
 extension VisitDetailViewController: UITableViewDataSource {
@@ -79,6 +88,7 @@ extension VisitDetailViewController: UITableViewDataSource {
 
 extension VisitDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        74
+        guard let singleVisit = singleVisit else { return 0 }
+        return calculateTextViewHeight(text: singleVisit.responsePriceInVisits[indexPath.row].procedureName, width: view.frame.width - 32, font: UIFont.systemFont(ofSize: 22)) + 30
     }
 }

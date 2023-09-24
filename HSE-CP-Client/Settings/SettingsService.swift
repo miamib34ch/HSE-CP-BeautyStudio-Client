@@ -37,31 +37,28 @@ final class SettingsService {
         assert(Thread.isMainThread)
         task?.cancel()
         
-        let request = createUpdateRequest(phone: phone, pass: pass)
-        
+        guard let request = createUpdateRequest(phone: phone, pass: pass) else { return }
+
         let task = URLSession.shared.objectTask(for: request, saveDataFunc: { _ in }, completion: completion)
         
         self.task = task
         task.resume()
     }
     
-    private func createUpdateRequest(phone: String?, pass: String?) -> URLRequest {
+    private func createUpdateRequest(phone: String?, pass: String?) -> URLRequest? {
         let token = AuthStorage().token ?? ""
-        var urlComponents = URLComponents(string: serverURL + "/update")!
-        urlComponents.queryItems = []
-        if let pass = pass {
-            urlComponents.queryItems?.append(URLQueryItem(name: "pass", value: pass))
-        }
-        
-        if let phone = phone {
-            urlComponents.queryItems?.append(URLQueryItem(name: "phone", value: phone))
-        }
-        
-        let url = urlComponents.url!
+        guard let url = URL(string: serverURL + "/update") else { return nil }
+
+        // Создаём тело запроса
+        let json = ["phone": phone, "pass": pass]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
         print(url)
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
         print(token)
         return request
     }
