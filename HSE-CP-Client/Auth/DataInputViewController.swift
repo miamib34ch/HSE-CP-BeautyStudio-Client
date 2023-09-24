@@ -8,7 +8,6 @@
 import UIKit
 
 final class DataInputViewController: UIViewController {
-    
     @IBOutlet private var loginTextField: UITextField!
     @IBOutlet private var passwordTextField: UITextField!
     @IBOutlet private var continueButton: UIButton!

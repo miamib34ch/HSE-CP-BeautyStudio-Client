@@ -9,7 +9,6 @@ import Foundation
 import SwiftKeychainWrapper
 
 final class AuthStorage {
-    
     private let keychain = KeychainWrapper.standard
     private let keyToken = "token"
     private let keyRole = "role"

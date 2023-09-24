@@ -17,7 +17,6 @@ protocol AlertPresenterProtocol {
 }
 
 struct AlertPresenter: AlertPresenterProtocol {
-    
     private weak var delegate: UIViewController?
     
     init(delegate: UIViewController?) {

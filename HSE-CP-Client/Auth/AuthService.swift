@@ -13,59 +13,42 @@ struct AuthResponseBody: Decodable {
 }
 
 final class AuthService {
-    
     private static var task: URLSessionTask?
-    
+
     static func fetchOAuthToken(login: String,
                                 password: String,
                                 isItLogin: Bool,
                                 completion: @escaping(Result<AuthResponseBody, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
-        
-        var request: URLRequest
+
+        var request: URLRequest?
         if isItLogin {
-            request = createLogin(login: login, password: password)
+            request = createEnterRequest(login: login, password: password, endPoint: "/login")
         }
         else {
-            request = createRegistration(login: login, password: password)
+            request = createEnterRequest(login: login, password: password, endPoint: "/registration")
         }
-        
+        guard let request = request else { return }
         let task = URLSession.shared.objectTask(for: request, saveDataFunc: { _ in }, completion: completion)
-        
+
         self.task = task
         task.resume()
     }
-    
-    private static func createLogin(login: String, password: String) -> URLRequest {
-        
-        // Создание URL
-        var urlComponents = URLComponents(string: serverURL + "/login")!
-        urlComponents.queryItems = [
-            URLQueryItem(name: "login", value: login),
-            URLQueryItem(name: "pass", value: password),
-        ]
-        let url = urlComponents.url!
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
 
-        return request
-    }
-    
-    private static func createRegistration(login: String, password: String) -> URLRequest {
-        
-        // Создание URL
-        var urlComponents = URLComponents(string: serverURL + "/registration")!
-        urlComponents.queryItems = [
-            URLQueryItem(name: "login", value: login),
-            URLQueryItem(name: "pass", value: password)
-        ]
-        let url = urlComponents.url!
-        
+    private static func createEnterRequest(login: String, password: String, endPoint: String) -> URLRequest? {
+        guard let url = URL(string: serverURL + endPoint) else { return nil }
+
+        // Создаём тело запроса
+        let json: [String: Any] = ["login": login, "pass": password]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
+        // Создаём запрос
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+
         return request
     }
 }
