@@ -8,4 +8,3 @@
 import Foundation
 
 let serverURL = "http://ip:port"
-
