@@ -13,7 +13,7 @@ final class AuthStorage {
     private let keyToken = "token"
     private let keyRole = "role"
     private let keyLogin = "login"
-    
+
     var token: String? {
         get {
             return keychain.string(forKey: keyToken)
@@ -23,7 +23,7 @@ final class AuthStorage {
             keychain.set(newValue, forKey: keyToken)
         }
     }
-    
+
     var role: String? {
         get {
             return keychain.string(forKey: keyRole)
@@ -33,7 +33,7 @@ final class AuthStorage {
             keychain.set(newValue, forKey: keyRole)
         }
     }
-    
+
     var login: String? {
         get {
             return keychain.string(forKey: keyLogin)
@@ -43,10 +43,9 @@ final class AuthStorage {
             keychain.set(newValue, forKey: keyLogin)
         }
     }
-    
+
     func delete() {
         keychain.removeObject(forKey: keyToken)
         keychain.removeObject(forKey: keyRole)
     }
 }
-

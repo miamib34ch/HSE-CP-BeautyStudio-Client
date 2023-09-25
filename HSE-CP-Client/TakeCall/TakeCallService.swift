@@ -16,7 +16,6 @@ struct MsgResult: Codable {
 }
 
 final class TakeCallService {
-    
     private var task: URLSessionTask?
     
     private var createPhoneRequest: URLRequest {
@@ -74,5 +73,4 @@ final class TakeCallService {
 
         return request
     }
-    
 }

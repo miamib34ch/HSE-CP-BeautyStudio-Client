@@ -11,19 +11,18 @@ final class DataInputViewController: UIViewController {
     @IBOutlet private var loginTextField: UITextField!
     @IBOutlet private var passwordTextField: UITextField!
     @IBOutlet private var continueButton: UIButton!
-    
+
     var delegate: AuthViewControllerProtocol?
     private var alertPresenter: AlertPresenterProtocol?
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-        
         alertPresenter = AlertPresenter(delegate: self)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if delegate?.isItLogin == false {
@@ -35,7 +34,7 @@ final class DataInputViewController: UIViewController {
                                                                secondButtonCompletion: nil))
         }
     }
-    
+
     @IBAction func continueTouchUp(_ sender: Any) {
         guard let login = loginTextField.text?.description else { return }
         guard let password = passwordTextField.text?.description else { return }
@@ -43,25 +42,23 @@ final class DataInputViewController: UIViewController {
         guard let res = delegate?.isItLogin else { return }
         switch res {
         case true:
-            AuthService.fetchOAuthToken(login: login, password: password, isItLogin: res ,completion: completionLogin)
+            AuthService.fetchOAuthToken(login: login, password: password, isItLogin: res, completion: completionLogin)
         case false:
-            AuthService.fetchOAuthToken(login: login, password: password, isItLogin: res ,completion: completionRegistration)
+            AuthService.fetchOAuthToken(login: login, password: password, isItLogin: res, completion: completionRegistration)
         }
     }
-    
+
     private func switchToClientTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "ClientTabBarController")
         window.rootViewController = tabBarController
     }
-    
+
     private func completionLogin(_ result: Result<AuthResponseBody, Error>) {
         UIBlockingProgressHUD.dismiss()
-        
         switch result {
         case .success(let response):
             succes(token: response.token, role: response.role)
-            
         case .failure(let error):
             switch error {
             case URLSession.NetworkError.errorStatusCode(400):
@@ -80,18 +77,15 @@ final class DataInputViewController: UIViewController {
                                                                    secondButtonCompletion: nil))
             default:
                 print(error)
-                
             }
         }
     }
-    
+
     private func completionRegistration(_ result: Result<AuthResponseBody, Error>) {
         UIBlockingProgressHUD.dismiss()
-        
         switch result {
         case .success(let response):
             succes(token: response.token, role: response.role)
-            
         case .failure(let error):
             switch error {
             case URLSession.NetworkError.errorStatusCode(400):
@@ -117,11 +111,10 @@ final class DataInputViewController: UIViewController {
                                                                    secondButtonCompletion: nil))
             default:
                 print(error)
-                
             }
         }
     }
-    
+
     private func succes(token: String, role: String) {
         guard let login = loginTextField.text?.description else { return }
         let authStorage = AuthStorage()

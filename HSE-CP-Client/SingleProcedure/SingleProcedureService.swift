@@ -25,28 +25,20 @@ struct SingleProcedure: Codable {
 
 final class SingleProcedureService {
     private var task: URLSessionTask?
-    
+
     func fetchProcedure(id: Int, completion: @escaping(Result<SingleProcedure, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
-        
         let request = createProcedureRequest(id: id)
-        
         let task = URLSession.shared.objectTask(for: request, saveDataFunc: { _ in }, completion: completion)
-        
         self.task = task
         task.resume()
     }
-    
-    private func createProcedureRequest(id: Int) -> URLRequest {
-        
-        let url = URL(string: serverURL + "/price/\(id)")!
 
+    private func createProcedureRequest(id: Int) -> URLRequest {
+        let url = URL(string: serverURL + "/price/\(id)")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-
         return request
     }
-    
 }
-

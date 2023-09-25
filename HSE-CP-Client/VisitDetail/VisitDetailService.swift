@@ -32,7 +32,6 @@ struct ResponsePriceInVisit: Codable {
 }
 
 final class VisitDetailService {
-    
     private var task: URLSessionTask?
     
     func fetchVisitById(id: Int, completion: @escaping(Result<SingleVisit, Error>) -> Void) {
@@ -57,5 +56,4 @@ final class VisitDetailService {
 
         return request
     }
-    
 }

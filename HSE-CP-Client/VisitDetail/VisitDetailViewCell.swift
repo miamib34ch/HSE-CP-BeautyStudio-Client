@@ -12,5 +12,4 @@ final class VisitDetailViewCell: UITableViewCell {
     
     @IBOutlet var nameLabel: UITextView!
     @IBOutlet var costLabel: UILabel!
-    
 }

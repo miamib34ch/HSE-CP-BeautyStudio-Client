@@ -51,5 +51,4 @@ final class ProfileVisitsService {
     private func saveVisits(visits: [Visit]) {
         ProfileVisitsService.shared.visits = visits
     }
-    
 }

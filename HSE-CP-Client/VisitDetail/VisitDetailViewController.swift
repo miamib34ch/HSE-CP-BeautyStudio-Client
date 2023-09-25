@@ -8,7 +8,6 @@
 import UIKit
 
 final class VisitDetailViewController: UIViewController {
-    
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var saleLabel: UILabel!
     @IBOutlet var finalCostLabel: UILabel!
@@ -50,11 +49,12 @@ final class VisitDetailViewController: UIViewController {
         let newCount = singleVisit.responsePriceInVisits.count
         if oldCount != newCount{
             tableView.performBatchUpdates {
-                let indexPaths = (oldCount..<newCount).map { i in
-                    IndexPath(row: i, section: 0)
+                let indexPaths = (oldCount..<newCount).map { index in
+                    IndexPath(row: index, section: 0)
                 }
                 tableView.insertRows(at: indexPaths, with: .automatic)
-            } completion: { _ in }
+            } completion: { _ in
+            }
         }
         oldCount = newCount
     }

@@ -8,42 +8,37 @@
 import UIKit
 
 final class SettingsViewController: UIViewController {
-    
     @IBOutlet private var passwordTextField: UITextField!
     @IBOutlet private var phoneTextField: UITextField!
-    
+
     private var alertPresenter: AlertPresenterProtocol?
     var delegate: ProfileViewControllerProtocol?
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-        
         alertPresenter = AlertPresenter(delegate: self)
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         delegate?.profileTakePhone()
     }
-    
+
     @IBAction private func saveButton(_ sender: Any) {
         UIBlockingProgressHUD.show()
         var phone: String?
         var pass: String?
-        
-        if !(passwordTextField.text == "" || passwordTextField.text == nil) {
+        if !(passwordTextField.text?.isEmpty ?? true || passwordTextField.text == nil) {
             pass = passwordTextField.text
         }
-        
-        if !(phoneTextField.text == "" || phoneTextField.text == nil) {
+        if !(phoneTextField.text?.isEmpty ?? true || phoneTextField.text == nil) {
             phone = phoneTextField.text
         }
-        
         SettingsService().sendUpdateRequest(phone: phone, pass: pass, completion: completionUpdate)
     }
-    
+
     @IBAction private func deleteButton(_ sender: Any) {
         let model = AlertModel(title: "Пока, пока!",
                                message: "Уверены, что хотите удалить аккаунт?",
@@ -57,8 +52,8 @@ final class SettingsViewController: UIViewController {
                                secondButtonCompletion: nil)
         alertPresenter?.showAlertWithTwoButton(model: model)
     }
-    
-    private func completionDelete(res: Result<MsgResult,Error>) {
+
+    private func completionDelete(res: Result<MsgResult, Error>) {
         UIBlockingProgressHUD.dismiss()
         switch res {
         case .success:
@@ -67,12 +62,12 @@ final class SettingsViewController: UIViewController {
             print(error)
         }
     }
-    
-    private func completionUpdate(res: Result<MsgResult,Error>) {
+
+    private func completionUpdate(res: Result<MsgResult, Error>) {
         UIBlockingProgressHUD.dismiss()
         switch res {
         case .success:
-            if (passwordTextField.text == "" || passwordTextField.text == nil) && (phoneTextField.text == "" || phoneTextField.text == nil) {
+            if (passwordTextField.text?.isEmpty ?? true || passwordTextField.text == nil) && (phoneTextField.text?.isEmpty ?? true || phoneTextField.text == nil) {
                 alertPresenter?.showAlertWithOneButton(model: AlertModel(title: "Увы обновлять нечем!",
                                                                          message: "Введите новые данные!",
                                                                          firstButtonText: "Ок",
@@ -80,7 +75,6 @@ final class SettingsViewController: UIViewController {
                                                                          secondButtonText: nil,
                                                                          secondButtonCompletion: nil))
             }
-            
             alertPresenter?.showAlertWithOneButton(model: AlertModel(title: "Ура",
                                                                      message: "Данные обновлены!",
                                                                      firstButtonText: "Ок",
@@ -112,7 +106,6 @@ final class SettingsViewController: UIViewController {
                                                                          secondButtonCompletion: nil))
             default:
                 print(error)
-                
             }
         }
     }

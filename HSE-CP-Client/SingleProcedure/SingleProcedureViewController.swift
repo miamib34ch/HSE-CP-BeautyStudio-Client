@@ -9,23 +9,22 @@ import UIKit
 import Kingfisher
 
 final class SingleProcedureViewController: UIViewController {
-    
     @IBOutlet private var procedureTitle: UITextView!
     @IBOutlet private var cost: UILabel!
     @IBOutlet private var desription: UITextView!
     @IBOutlet private var image: UIImageView!
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
     private var procedure: SingleProcedure?
     var idProcedure: Int?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let id = idProcedure else { return }
         UIBlockingProgressHUD.show()
         SingleProcedureService().fetchProcedure(id: id, completion: completion)
     }
-    
+
     private func update() {
         UIBlockingProgressHUD.dismiss()
         procedureTitle.text = procedure?.procedureName
@@ -34,9 +33,8 @@ final class SingleProcedureViewController: UIViewController {
         self.cost.text = "\(cost) ₽"
         guard let photoName = procedure?.photoName else { return }
         image.kf.setImage(with: URL(string: serverURL + "/photo?photoName=" + photoName), placeholder: UIImage(named: "placeholder"))
-        
     }
-    
+
     private func completion(res: Result<SingleProcedure, Error>) {
         switch res {
         case .success(let procedure):

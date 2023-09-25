@@ -14,15 +14,15 @@ protocol AuthViewControllerProtocol {
 final class AuthViewController: UIViewController, AuthViewControllerProtocol {
     var isItLogin: Bool?
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
-    
+
     @IBAction func registrationTouch(_ sender: Any) {
         isItLogin = false
     }
-    
+
     @IBAction func loginTouch(_ sender: Any) {
         isItLogin = true
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowRegistration" || segue.identifier == "ShowLogin" {
             guard let dataInputViewViewController = segue.destination as? DataInputViewController
@@ -33,4 +33,3 @@ final class AuthViewController: UIViewController, AuthViewControllerProtocol {
         }
     }
 }
-

@@ -25,8 +25,7 @@ final class AuthService {
         var request: URLRequest?
         if isItLogin {
             request = createEnterRequest(login: login, password: password, endPoint: "/login")
-        }
-        else {
+        } else {
             request = createEnterRequest(login: login, password: password, endPoint: "/registration")
         }
         guard let request = request else { return }

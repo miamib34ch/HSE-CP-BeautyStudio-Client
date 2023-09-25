@@ -8,11 +8,10 @@
 import UIKit
 
 protocol ProfileViewControllerProtocol {
-    func profileTakePhone() -> Void
+    func profileTakePhone()
 }
 
 final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
-    
     @IBOutlet var usernameLabel: UILabel!
     @IBOutlet var phoneNumberLabel: UILabel!
     @IBOutlet var tableView: UITableView!
@@ -68,11 +67,12 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         visits = profileVisitsServiceVisits
         if oldCount != newCount{
             tableView.performBatchUpdates {
-                let indexPaths = (oldCount..<newCount).map { i in
-                    IndexPath(row: i, section: 0)
+                let indexPaths = (oldCount..<newCount).map { index in
+                    IndexPath(row: index, section: 0)
                 }
                 tableView.insertRows(at: indexPaths, with: .automatic)
-            } completion: { _ in }
+            } completion: { _ in
+            }
         }
     }
     
@@ -92,7 +92,6 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "SplashScreenViewController")
         window.rootViewController = tabBarController
     }
-    
 }
 
 
@@ -136,5 +135,4 @@ extension ProfileViewController: UITableViewDelegate {
             super.prepare(for: segue, sender: sender)
         }
     }
-    
 }
